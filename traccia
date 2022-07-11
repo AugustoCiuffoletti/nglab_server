@@ -1,0 +1,20 @@
+#!/bin/bash
+
+closing() {
+   echo "I pacchetti catturati sono in $FILENAME"
+   exit
+}
+
+MAXP=2000
+TIMESTAMP=`date "+%Y%m%d-%H%M%S"`
+FILENAME=~/shared/${1:-$TIMESTAMP}.pcapng
+
+trap closing INT
+
+echo "Premi CTRL-C per arrestare la cattura dei pacchetti"
+
+tcpdump -i eth0 -w $FILENAME -c $MAXP
+
+echo "Cattura terminata per superamento della soglia ($MAXP pacchetti)"
+closing
+
