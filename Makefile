@@ -14,17 +14,10 @@ push:
 build:
 	docker build -t $(REPO):$(TAG) .
 
-# Test run the container
-# the local dir will be mounted under /src read-only
-run:
-	docker run --privileged --rm \
-		-e USER=user -e PASSWORD=user \
-		--name nglab-server \
-		$(REPO):$(TAG)
-
-# Connect inside the running container for debugging
-shell:
+test:
+	docker run --privileged --rm -d --name nglab-server $(REPO):$(TAG)
 	docker exec -it nglab-server bash
+
 # DA FARE
 #  gen-ssl:
 #	mkdir -p ssl
